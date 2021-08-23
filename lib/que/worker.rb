@@ -118,7 +118,7 @@ module Que
                   :job_worked
                 end
 
-        Que.log(event: event, log_message)
+        Que.log(event: event, **log_message)
       end
 
       instance
