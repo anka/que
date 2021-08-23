@@ -111,14 +111,14 @@ module Que
           elapsed: elapsed,
         }
 
-        if error = instance.que_error
-          log_message[:event] = :job_errored
-          log_message[:error] = "#{error.class}: #{error.message}".slice(0, 500)
-        else
-          log_message[:event] = :job_worked
-        end
+        event = if error = instance.que_error
+                  log_message[:error] = "#{error.class}: #{error.message}".slice(0, 500)
+                  :job_errored
+                else
+                  :job_worked
+                end
 
-        Que.log(log_message)
+        Que.log(event: event, log_message)
       end
 
       instance
